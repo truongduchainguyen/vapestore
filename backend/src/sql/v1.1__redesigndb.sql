@@ -2,7 +2,7 @@ DROP TABLE product;
 CREATE TABLE
 IF NOT EXISTS product
 (
-    id BIGSERIAL PRIMARY KEY,
+    product_id BIGSERIAL PRIMARY KEY,
     is_deleted BOOLEAN DEFAULT false,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
@@ -11,13 +11,13 @@ IF NOT EXISTS product
     comment JSON,
     type VARCHAR(20) NOT NULL,
     description VARCHAR(200),
-    nicotine NUMBER,
-    volume NUMBER,
-    quantity NUMBER NOT NULL DEFAULT 0
-)
+    nicotine DECIMAL,
+    volume DECIMAL,
+    quantity INT NOT NULL DEFAULT 0
+);
 
 CREATE TABLE IF NOT EXISTS user(
-    id BIGSERIAL PRIMARY KEY,
+    user_id BIGSERIAL PRIMARY KEY,
     is_deleted BOOLEAN DEFAULT false,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
@@ -25,15 +25,18 @@ CREATE TABLE IF NOT EXISTS user(
     phone VARCHAR(17),
     role VARCHAR(10),
     address VARCHAR(100),
-    order_id BIGSERIAL
-)
+    order_id JSON
+);
 
 CREATE TABLE IF NOT EXISTS order(
-    id BIGSERIAL PRIMARY KEY,
+    order_id BIGSERIAL PRIMARY KEY,
     is_deleted BOOLEAN DEFAULT false,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     products JSON,
     status VARCHAR(20),
-    customer_id BIGSERIAL
-)
+    user_id BIGSERIAL,
+    total DECIMAL NOT NULL
+);
+
+ALTER TABLE order ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(user_id);
