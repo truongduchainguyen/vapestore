@@ -12,11 +12,11 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
       NODE_ENV: development
-  
+
   flyway:
     image: flyway/flyway
     container_name: flyway
-    depends_on: 
+    depends_on:
      - postgresql
     volumes:
       - "./src/sql:/flyway/sql"
