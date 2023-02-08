@@ -1,6 +1,5 @@
 DROP TABLE product;
-CREATE TABLE
-IF NOT EXISTS product
+CREATE TABLE product
 (
     product_id BIGSERIAL,
     is_deleted BOOLEAN DEFAULT false,
@@ -15,9 +14,9 @@ IF NOT EXISTS product
     volume DECIMAL,
     quantity INT NOT NULL DEFAULT 0,
     primary key (product_id)
-)
+);
 
-CREATE TABLE IF NOT EXISTS user(
+CREATE TABLE users(
     user_id BIGSERIAL,
     is_deleted BOOLEAN DEFAULT false,
     created_at TIMESTAMP NOT NULL,
@@ -28,9 +27,9 @@ CREATE TABLE IF NOT EXISTS user(
     address VARCHAR(100),
     order_id JSON,
     primary key (user_id)
-)
+);
 
-CREATE TABLE IF NOT EXISTS order(
+CREATE TABLE orders(
     order_id BIGSERIAL,
     is_deleted BOOLEAN DEFAULT false,
     created_at TIMESTAMP NOT NULL,
@@ -40,6 +39,6 @@ CREATE TABLE IF NOT EXISTS order(
     user_id BIGSERIAL,
     total DECIMAL NOT NULL,
     primary key (order_id)
-)
+);
 
-ALTER TABLE order ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(user_id);
+ALTER TABLE orders ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id);
